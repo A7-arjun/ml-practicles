@@ -1,3 +1,5 @@
+##python -m pip install numpy pandas matplotlib scikit-learn xgboost "gymnasium[toy-text]"
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
