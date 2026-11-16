@@ -1,3 +1,4 @@
+#python -m pip install numpy pandas matplotlib scikit-learn xgboost "gymnasium[toy-text]"
 
 # Import required libraries
 from sklearn.datasets import load_iris
