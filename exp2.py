@@ -1,3 +1,4 @@
+#python -m pip install numpy pandas matplotlib scikit-learn xgboost "gymnasium[toy-text]"
 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
