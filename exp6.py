@@ -6,9 +6,9 @@ from sklearn.model_selection import train_test_split
 
 # Import boosting and voting algorithms
 from sklearn.ensemble import (
-    AdaBoostClassifier,
-    GradientBoostingClassifier,
-    VotingClassifier
+    AdaBoostClassifier, #creates adaboost model (incorrely classified data corrected importance)
+    GradientBoostingClassifier, #cretae gradient boosting model ( predict error sequensilly and fix them)
+    VotingClassifier #combines both model
 )
 
 # Import XGBoost algorithm
@@ -30,7 +30,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# Create three boosting models
+# Create three boosting models and stored in list
 estimators = [
     ("Ada", AdaBoostClassifier(n_estimators=50, random_state=42)),
 
@@ -41,20 +41,20 @@ estimators = [
     ("XGB", XGBClassifier(
         n_estimators=100,
         random_state=42,
-        eval_metric="mlogloss",
-        n_jobs=1
+        eval_metric="mlogloss", #multiclass logless eval matrix
+        n_jobs=1 #use one cpu thread
     ))
 ]
 
 # Store individual models in a dictionary
 models = dict(estimators)
 
-# Create Hard Voting Classifier
+# Create Hard Voting Classifier (max vote)
 models["Hard voting"] = VotingClassifier(
     estimators=estimators, voting="hard"
 )
 
-# Create Soft Voting Classifier
+# Create Soft Voting Classifier (combine probalbilty)
 models["Soft voting"] = VotingClassifier(
     estimators=estimators, voting="soft"
 )
@@ -62,7 +62,7 @@ models["Soft voting"] = VotingClassifier(
 # Print output headings
 print("Model Accuracy Precision Recall F1")
 
-# Train and evaluate each model
+# Train and evaluate each model takes each model from dict
 for name, model in models.items():
 
     # Train the model
@@ -75,8 +75,8 @@ for name, model in models.items():
     accuracy = accuracy_score(y_test, y_pred)
 
     # Calculate precision
-    precision = precision_score(
-        y_test, y_pred, average="macro", zero_division=0
+    precision = precision_score(                         #avrges metric of 3 metrics
+        y_test, y_pred, average="macro", zero_division=0 #avoid error if class has no predicted samples
     )
 
     # Calculate recall
