@@ -1,8 +1,8 @@
 #python -m pip install numpy pandas matplotlib scikit-learn xgboost "gymnasium[toy-text]"
 
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+import pandas as pd  #text,tabular,csv data
+from sklearn.feature_extraction.text import CountVectorizer #text--> numerical values
+from sklearn.naive_bayes import MultinomialNB  #to create navive baies model
 
 # Step 1: Create dataset
 data = {
@@ -24,16 +24,16 @@ data = {
     ]
 }
 
-# Step 2: Convert data into DataFrame
+# Step 2: Converting ditonary --> tables
 df = pd.DataFrame(data)
 
-# Step 3: Separate input and output
+# Step 3: Separate input(x) and output(y)
 X = df['message']
 y = df['label']
 
-# Step 4: Convert text into numerical form
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(X)
+# Step 4: Convert text into numerical values (comp dont unerstand words)
+vectorizer = CountVectorizer() #count unique words in give numbers.
+X = vectorizer.fit_transform(X)  #training and converting words to numbers
 
 # Step 5: Create Naive Bayes model
 model = MultinomialNB()
@@ -43,7 +43,7 @@ model.fit(X, y)
 
 # Step 7: Test with new message
 new_message = ["virat kohli is cricketer"]
-new_counts = vectorizer.transform(new_message)
+new_counts = vectorizer.transform(new_message) #converting msg text to numerical form
 
 prediction = model.predict(new_counts)
 
