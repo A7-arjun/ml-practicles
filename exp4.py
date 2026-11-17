@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-# Step 1: Create dataset
+# Step 1: Create dataset with 9 data points and 2 features
 X = np.array([
     [1.713, 1.586],
     [0.180, 1.786],
@@ -17,7 +17,7 @@ X = np.array([
     [0.773, 0.186]
 ])
 
-# Step 2: Actual class labels
+# Step 2: Actual class labels stored in y and converting in 3 clusters
 y = np.array([0, 1, 1, 0, 1, 0, 1, 1, 1])
 
 # Step 3: New data point
@@ -27,22 +27,22 @@ new = np.array([[0.906, 0.606]])
 model = KMeans(
     n_clusters=3,
     random_state=42,
-    n_init=10
-).fit(X)
+    n_init=10 #runs algorithm 10times with diff initial cluster
+).fit(X) #perform traing/clustering using X
 
 # Step 5: Find cluster of new point
 cluster = model.predict(new)[0]
 
 # Step 6: Find majority class in that cluster
-members = y[model.labels_ == cluster]
-pred = np.bincount(members).argmax()
+members = y[model.labels_ == cluster] #selets old class labels and find which point belongs to new cluster
+pred = np.bincount(members).argmax() #count occurance of each class and selcts largest count
 
 # Step 7: Display results
 print("Centres:\n", model.cluster_centers_)
 print("Predicted CLASS:", pred)
 
 # Step 8: Visualize clusters
-plt.scatter(X[:, 0], X[:, 1], c=model.labels_)
+plt.scatter(X[:, 0], X[:, 1], c=model.labels_) #selects all rows from first column and simliarly 2nd and assigns color
 
 plt.scatter(
     model.cluster_centers_[:, 0],
